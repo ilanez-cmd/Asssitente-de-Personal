@@ -1,0 +1,89 @@
+def gerar_prompt_personalizado(biotipo, dias_por_semana, tipo_exercicio):
+    # Definindo os suplementos e sugestões de treino para cada biotipo
+    suplementos = {
+        "ectomorfo": {
+            "objetivo": "ganho de massa muscular",
+            "suplementos": ["Creatina", "Whey Protein", "BCAA", "Glutamina"]
+        },
+        "mesomorfo": {
+            "objetivo": "aumento muscular e definição",
+            "suplementos": ["Whey Protein", "Creatina", "Termogênicos"]
+        },
+        "endomorfo": {
+            "objetivo": "perda de gordura",
+            "suplementos": ["Termogênicos", "Whey Protein", "BCAA", "L-carnitina"]
+        }
+    }
+
+    # Definindo as divisões de treino com base nos dias disponíveis
+    treinos = {
+        1: "Full Body",
+        3: "Treino ABC",
+        5: "Treino ABCDE"
+    }
+
+    # Exercícios recomendados com base no tipo de treino e biotipo
+    exercicios = {
+        "funcional": {
+            "ectomorfo": ["Agachamento com peso", "Burpees", "Pular corda", "Flexões", "Saltos"],
+            "mesomorfo": ["Agachamento com peso", "Pular corda", "Burpees", "Flexões", "Mountain Climbers"],
+            "endomorfo": ["Burpees", "Pular corda", "Agachamento com peso corporal", "Flexões"]
+        },
+        "maquinario": {
+            "ectomorfo": ["Leg press", "Puxada frente na máquina", "Extensão de perna"],
+            "mesomorfo": ["Leg press", "Puxada no pulley", "Extensão de perna", "Cadeira abdutora"],
+            "endomorfo": ["Leg press", "Cadeira extensora", "Cadeira abdutora", "Puxada no pulley"]
+        },
+        "peso_livre": {
+            "ectomorfo": ["Agachamento com barra", "Supino reto", "Remada curvada", "Levantamento terra"],
+            "mesomorfo": ["Supino reto", "Agachamento com barra", "Puxada na barra", "Rosca direta"],
+            "endomorfo": ["Agachamento com barra", "Puxada no pulley", "Flexões com barra"]
+        },
+        "cardio": {
+            "ectomorfo": ["Corrida moderada", "Ciclismo", "Pular corda"],
+            "mesomorfo": ["Corrida moderada", "HIIT", "Ciclismo"],
+            "endomorfo": ["Corrida em alta intensidade", "HIIT", "Caminhada inclinada"]
+        },
+        "hiit": {
+            "ectomorfo": ["Burpees", "Saltos com agachamento", "Corrida intervalada"],
+            "mesomorfo": ["Burpees", "Pular corda", "Sprints"],
+            "endomorfo": ["Sprints em escadas", "Saltos com agachamento", "Burpees"]
+        }
+    }
+
+    # Gerando o prompt que será enviado à IA
+    prompt = f"""
+    Você é um assistente de personal trainer. Com base nas informações abaixo, crie um plano de treino personalizado, incluindo os melhores exercícios e suplementos para o usuário.
+
+    - **Biotipo Corporal**: {biotipo.capitalize()}
+    - **Objetivo do Usuário**: {suplementos[biotipo]['objetivo']}
+    - **Dias Disponíveis para Treinar**: {dias_por_semana} dias por semana
+    - **Tipo de Exercício Preferido**: {tipo_exercicio.capitalize()}
+
+    Com base nessas informações, forneça as seguintes informações:
+    1. O tipo de treino sugerido com base nos dias de treino disponíveis (por exemplo, Full Body, ABC, ABCDE).
+    2. Uma lista de exercícios recomendados para o tipo de treino e biotipo do usuário.
+    3. Os melhores suplementos recomendados para o biotipo e objetivo do usuário.
+    4. Dicas gerais sobre o treino e como adaptar o plano para alcançar os objetivos do usuário.
+
+    **Exemplo de formato de resposta:**
+    
+    **Plano de Treino:**
+    - Tipo de treino: {treinos[dias_por_semana]}
+    - Exercícios recomendados:
+      - {', '.join(exercicios[tipo_exercicio][biotipo])}
+    - Suplementos recomendados:
+      - {', '.join(suplementos[biotipo]['suplementos'])}
+    - Dicas: [Dicas adicionais para o biotipo e objetivo]
+    """
+
+    return prompt
+
+# Exemplo de uso:
+biotipo = "endomorfo"  # Pode ser 'ectomorfo', 'mesomorfo', 'endomorfo'
+dias_por_semana = 3    # Pode ser 1, 3 ou 5
+tipo_exercicio = "hiit"  # Pode ser 'funcional', 'maquinario', 'peso_livre', 'cardio', 'hiit'
+
+# Gerando o prompt a ser enviado para a IA
+prompt_gerado = gerar_prompt_personalizado(biotipo, dias_por_semana, tipo_exercicio)
+print(prompt_gerado)
